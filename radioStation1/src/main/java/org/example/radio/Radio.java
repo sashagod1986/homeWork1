@@ -6,7 +6,6 @@ import org.example.presenter.PresentersGuest;
 import org.example.Utils;
 import org.example.broadcast.BroadInt;
 import org.example.broadcast.Broadcasts;
-import org.example.events.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,13 +15,19 @@ public class Radio {
     public Radio(String radioName){
         this.radioName = radioName;
         broadcast = new ArrayList<>();
-        presenter = new ArrayList<>();
+        presenters = new ArrayList<>();
+        presenter = null;
     }
     private List<BroadInt> broadcast;
-    private List<PresenterInt> presenter;
+    private static List<PresenterInt> presenters;
+    private static PresenterInt presenter;
 
     public int broadcastLength(){
         return this.broadcast.size();
+    }
+
+    public static List<PresenterInt> getPresenters() {
+        return presenters;
     }
 
     // get all broadcast
@@ -35,19 +40,19 @@ public class Radio {
     }
 
     //get all presenter
-    public void getPresenters(){
-        for(PresenterInt pres: presenter){
+    public void listPresenters(){
+        for(PresenterInt pres: presenters){
             if(pres.getClass() == Presenters.class){
-                System.out.println(pres.toString());
+                System.out.println(pres);
             }
         }
     }
 
     //get all guest presenter
-    public void getPresentersGuest(){
-        for(PresenterInt pres: presenter){
+    public void listPresentersGuest(){
+        for(PresenterInt pres: presenters){
             if(pres.getClass() == PresentersGuest.class){
-                System.out.println(pres.toString());
+                System.out.println(pres);
             }
         }
     }
@@ -76,14 +81,14 @@ public class Radio {
     public void getBroadEvent(String bname){
         for(BroadInt broad: broadcast){
             if (broad.getName().equals(bname)) {
-                broad.getEvent();
+                broad.listEvent();
             }
         }
         System.out.println();
     }
 
     // add event for the broadcast
-    public void setBroadEvent(String bname, int type){
+    public void addBroadEvent(String bname, int type){
         for(BroadInt broad: broadcast){
             if (broad.getName().equals(bname)) {
                 if (type == 1){
@@ -100,20 +105,50 @@ public class Radio {
     }
 
     // add new presenter
-    public void setPresenter(PresenterInt present){
-        presenter.add(present);
+    public void addPresenter(String name, int experience){
+        presenters.add(new Presenters(name,experience));
+    }
+
+    public static PresenterInt getPresenter(String nameP) {
+            for (PresenterInt pres : presenters) {
+                if (pres.getName().equals(nameP)) {
+                    presenter = pres;
+                }
+            }
+        return presenter;
     }
 
     // add new guest presenter
-    public void setPresentersGuest(PresenterInt present){
-        presenter.add(present);
+    public PresenterInt addPresentersGuest(String resume){
+        presenter = new PresentersGuest(resume);
+        presenters.add(presenter);
+        return presenter;
     }
 
     // add new broadcast
     public void setBroadcast(BroadInt broad) {
         broadcast.add(broad);
     }
-    public void addBroadcast(String name, int duration) {
-        broadcast.add(new Broadcasts(name, duration));
+    public void addBroadcast(String name, int duration, PresenterInt present) {
+            broadcast.add(new Broadcasts(name, duration, present));
+    }
+
+    public void listPresenterEvents(String name) {
+        for (PresenterInt pres: presenters) {
+            if (pres.getName() != null) {
+                boolean presentrExist = false;
+                if (pres.getName().equals(name)) {presentrExist = true; }
+                    if (presentrExist) {
+                    for (BroadInt broad : broadcast) {
+                        if (pres.getName().equals(broad.getPresenterName())) {
+                            broad.listEvent();
+                        }
+                    }
+                }
+                if (!presentrExist) {
+                    System.out.println("no presenter "+ name);
+                }
+            }
+        }
     }
 }

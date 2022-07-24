@@ -106,6 +106,7 @@ public class Utils {
     }
 
     public static void waitingEnter(){
+        System.out.println();
         System.out.println("press enter to continue");
         Scanner scanner = new Scanner(System.in);
         scanner.nextLine();

@@ -4,14 +4,17 @@ public class Presenters implements PresenterInt {
     private String name;
     private int workExperience;
     private String programsList;
-    public Presenters(String name, int workExperience, String programsList){
+    public Presenters(String name, int workExperience){
         this.name = name;
         this.workExperience = workExperience;
-        this.programsList = programsList;
+    }
+
+    public String getName() {
+        return name;
     }
 
     @Override
     public String toString() {
-        return "Presenters " + name + " workExperience= " + workExperience + " programsList " + programsList;
+        return "name " + name + " workExperience= " + workExperience;
     }
 }

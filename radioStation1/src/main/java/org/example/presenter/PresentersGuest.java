@@ -8,6 +8,11 @@ public class PresentersGuest implements PresenterInt {
 
     @Override
     public String toString() {
-        return "PresentersGuest resume " + resume;
+        return " guest resume " + resume;
+    }
+
+    @Override
+    public String getName() {
+        return "guest";
     }
 }

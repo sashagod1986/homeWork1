@@ -1,5 +1,6 @@
 package org.example.radio;
 
+import org.example.presenter.PresenterInt;
 import org.example.presenter.Presenters;
 import org.example.presenter.PresentersGuest;
 import org.example.Utils;
@@ -13,12 +14,12 @@ public class RadioEngine {
 
         // create default object
         Radio radio = new Radio("radio");
-        radio.setBroadcast(new Broadcasts("first",60));
-        radio.setBroadcast(new Broadcasts("second",50));
+        radio.addPresenter("Mike",10);
+        radio.addPresenter("Jon",15);
+        radio.addPresentersGuest("resume");
+        radio.setBroadcast(new Broadcasts("first",60, Radio.getPresenter("Mike")));
+        radio.setBroadcast(new Broadcasts("second",50, Radio.getPresenter("Jon")));
         radio.setBoardEvent();
-        radio.setPresenter(new Presenters("Mike",10,"intervies"));
-        radio.setPresentersGuest(new PresentersGuest("resume"));
-
         // run menu
         exit = true;
         while (exit) {
@@ -30,16 +31,41 @@ public class RadioEngine {
             System.out.println("6 add guest presenter");
             System.out.println("7 list presenter");
             System.out.println("8 list guest presenter");
+            System.out.println("9 list presenter events");
             System.out.println("0 exit");
             int choiceInt = Utils.getMenuInt();
             if (choiceInt == 0) {
                     exit = false;
                 }
             if (choiceInt == 1) {
-
-                radio.addBroadcast(Utils.getBroadcastsName(), Utils.getDuration());
-                System.out.println();
+                String nameB = Utils.getBroadcastsName();
+                int durB = Utils.getDuration();
+                System.out.println("1 add presenter to broadcast");
+                System.out.println("2 add new guest presenter to broadcast");
+                int choiceP = Utils.getMenuInt();
+                if (choiceP == 1) {
+                    boolean presentrExist = false;
+                    String nameP = Utils.getPresenterName();
+                    for (PresenterInt pres : Radio.getPresenters()) {
+                        if (pres.getName().equals(nameP)) {
+                            presentrExist = true;
+                        }
+                    }
+                    if (presentrExist) {
+                        radio.addBroadcast(nameB, durB, Radio.getPresenter(nameP));
+                    }
+                    if (!presentrExist) {
+                        System.out.println("no presenter " + nameP);
+                    }
                 }
+                if (choiceP == 2) {
+                    radio.addBroadcast(nameB, durB, radio.addPresentersGuest(Utils.getResume()));
+                }
+                if (choiceP > 2) {
+                    System.out.println("wrong menu number");
+                }
+                Utils.waitingEnter();
+            }
             if (choiceInt == 2) {
                 radio.getBroad();
                 Utils.waitingEnter();
@@ -60,23 +86,31 @@ public class RadioEngine {
                     System.out.println("3 add new advertising");
                     System.out.println("0 exit add broadcasts event");
                     int type = Utils.getMenuInt();
-                    radio.setBroadEvent(bname,type);
+                    radio.addBroadEvent(bname,type);
                     if (type == 0) {exitEvent = false;}
                 }
+                Utils.waitingEnter();
             }
             if (choiceInt == 5) {
-                radio.setPresenter(new Presenters(Utils.getPresenterName(),Utils.getWorkExperience(),Utils.getProgramsList()));
+                radio.addPresenter(Utils.getPresenterName(),Utils.getWorkExperience());
+                Utils.waitingEnter();
             }
             if (choiceInt == 6) {
-                radio.setPresentersGuest(new PresentersGuest(Utils.getResume()));
+                radio.addPresentersGuest(Utils.getResume());
+                Utils.waitingEnter();
             }
             if (choiceInt == 7) {
-                radio.getPresenters();
+                radio.listPresenters();
+                Utils.waitingEnter();
             }
             if (choiceInt == 8) {
-                radio.getPresentersGuest();
+                radio.listPresentersGuest();
+                Utils.waitingEnter();
             }
-            if (choiceInt > 8){System.out.println("no menu number");}
+            if (choiceInt == 9) {
+                radio.listPresenterEvents(Utils.getPresenterName());
+                Utils.waitingEnter();
+            }
         }
     }
 }

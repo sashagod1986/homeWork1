@@ -4,6 +4,7 @@ import org.example.events.Advertising;
 import org.example.events.Event;
 import org.example.events.Interview;
 import org.example.events.Song;
+import org.example.presenter.PresenterInt;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,14 +17,21 @@ public class Broadcasts implements BroadInt {
     private String name;
     private List<Event> events;
 
+    private PresenterInt present;
+
+    public String getPresenterName(){
+        return present.getName();
+    }
+
 
 //    private double profit;
 
-    public Broadcasts(String name, int duration) {
+    public Broadcasts(String name, int duration, PresenterInt present) {
         this.name = name;
         this.duration = duration;
         this.costDuration = duration/2;
         events = new ArrayList<>();
+        this.present = present;
     }
 
     // add new event to broadcast
@@ -65,11 +73,13 @@ public class Broadcasts implements BroadInt {
 
         return "Broadcasts " + name +
                 " duration= " + duration +
-                " profit = " + getProfit();
+                " profit = " + getProfit() +
+                " presenter " + present;
+
     }
 
     // get all broadcast event
-    public void getEvent(){
+    public void listEvent(){
 //        System.out.println(this.getName());
         for(Event event: events){
             System.out.println(event.toString());
