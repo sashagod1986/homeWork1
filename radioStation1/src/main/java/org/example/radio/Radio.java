@@ -108,6 +108,7 @@ public class Radio {
         presenters.add(new Presenters(name,experience));
     }
 
+    // get presenter with specific name
     public static PresenterInt getPresenter(String nameP) {
             for (PresenterInt pres : presenters) {
                 if (pres.getName().equals(nameP)) {
@@ -132,6 +133,7 @@ public class Radio {
             broadcast.add(new Broadcasts(name, duration, present));
     }
 
+    // get all presenter events
     public void listPresenterEvents(String name) {
         boolean presentrExist = false;
         for (PresenterInt pres: presenters) {
