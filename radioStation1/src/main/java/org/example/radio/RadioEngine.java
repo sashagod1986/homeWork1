@@ -8,7 +8,7 @@ import org.example.Utils;
 import org.example.broadcast.Broadcasts;
 
 public class RadioEngine {
-    private static boolean exit;
+
 
     // main method
     public static void radioEngine() {
@@ -22,7 +22,7 @@ public class RadioEngine {
         radio.addBroadcast(new Broadcasts("second",50, Radio.getPresenter("Jon")));
         radio.setBoardEvent();
         // run menu
-        exit = true;
+        boolean exit = true;
         while (exit) {
             System.out.println("1 add new broadcasts");
             System.out.println("2 list broadcasts");
