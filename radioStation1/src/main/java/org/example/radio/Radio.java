@@ -18,12 +18,12 @@ public class Radio {
         presenters = new ArrayList<>();
         presenter = null;
     }
-    private List<BroadInt> broadcast;
+    private static List<BroadInt> broadcast;
     private static List<PresenterInt> presenters;
     private static PresenterInt presenter;
 
-    public int broadcastLength(){
-        return this.broadcast.size();
+    public static List<BroadInt> getBroadcast() {
+        return broadcast;
     }
 
     public static List<PresenterInt> getPresenters() {
@@ -125,7 +125,7 @@ public class Radio {
     }
 
     // add new broadcast
-    public void setBroadcast(BroadInt broad) {
+    public void addBroadcast(BroadInt broad) {
         broadcast.add(broad);
     }
     public void addBroadcast(String name, int duration, PresenterInt present) {

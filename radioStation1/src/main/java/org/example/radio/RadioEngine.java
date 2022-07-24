@@ -1,5 +1,6 @@
 package org.example.radio;
 
+import org.example.broadcast.BroadInt;
 import org.example.presenter.PresenterInt;
 import org.example.presenter.Presenters;
 import org.example.presenter.PresentersGuest;
@@ -17,8 +18,8 @@ public class RadioEngine {
         radio.addPresenter("Mike",10);
         radio.addPresenter("Jon",15);
         radio.addPresentersGuest("resume");
-        radio.setBroadcast(new Broadcasts("first",60, Radio.getPresenter("Mike")));
-        radio.setBroadcast(new Broadcasts("second",50, Radio.getPresenter("Jon")));
+        radio.addBroadcast(new Broadcasts("first",60, Radio.getPresenter("Mike")));
+        radio.addBroadcast(new Broadcasts("second",50, Radio.getPresenter("Jon")));
         radio.setBoardEvent();
         // run menu
         exit = true;
@@ -80,14 +81,27 @@ public class RadioEngine {
                 System.out.println("enter broadcasts name");
                 String bname = Utils.getName();
                 boolean exitEvent = true;
-                while (exitEvent) {
-                    System.out.println("1 add new song");
-                    System.out.println("2 add new interview");
-                    System.out.println("3 add new advertising");
-                    System.out.println("0 exit add broadcasts event");
-                    int type = Utils.getMenuInt();
-                    radio.addBroadEvent(bname,type);
-                    if (type == 0) {exitEvent = false;}
+                boolean existBroad = false;
+                for (BroadInt broad: Radio.getBroadcast()){
+                    if (broad.getName().equals(bname)){
+                        existBroad = true;
+                    }
+                }
+                if (existBroad) {
+                    while (exitEvent) {
+                        System.out.println("1 add new song");
+                        System.out.println("2 add new interview");
+                        System.out.println("3 add new advertising");
+                        System.out.println("0 exit add broadcasts event");
+                        int type = Utils.getMenuInt();
+                        radio.addBroadEvent(bname, type);
+                        if (type == 0) {
+                            exitEvent = false;
+                        }
+                    }
+                }
+                if (!existBroad) {
+                    System.out.println("no broadcast "+bname);
                 }
                 Utils.waitingEnter();
             }

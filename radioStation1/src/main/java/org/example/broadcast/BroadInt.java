@@ -11,4 +11,5 @@ public interface BroadInt {
     public void addInterview(String giveInterview, int duration);
     public void addAdvertising(String advertisingName, int duration);
     public String getPresenterName();
+
 }
