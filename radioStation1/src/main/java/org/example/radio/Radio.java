@@ -47,7 +47,6 @@ public class Radio {
             }
         }
     }
-
     //get all guest presenter
     public void listPresentersGuest(){
         for(PresenterInt pres: presenters){
@@ -134,9 +133,8 @@ public class Radio {
     }
 
     public void listPresenterEvents(String name) {
+        boolean presentrExist = false;
         for (PresenterInt pres: presenters) {
-            if (pres.getName() != null) {
-                boolean presentrExist = false;
                 if (pres.getName().equals(name)) {presentrExist = true; }
                     if (presentrExist) {
                     for (BroadInt broad : broadcast) {
@@ -145,10 +143,9 @@ public class Radio {
                         }
                     }
                 }
-                if (!presentrExist) {
-                    System.out.println("no presenter "+ name);
-                }
-            }
+        }
+        if (!presentrExist) {
+            System.out.println("no presenter "+ name);
         }
     }
 }
